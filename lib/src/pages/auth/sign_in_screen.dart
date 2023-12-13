@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:greengrocer/src/page_routes/app_pages.dart';
+import 'package:greengrocer/src/pages/auth/controller/auth_controller.dart';
 import 'package:greengrocer/src/pages/common_widgets/app_name_widget.dart';
 import 'package:greengrocer/src/pages/common_widgets/custom_text_field.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
@@ -112,23 +113,43 @@ class SignInScreen extends StatelessWidget {
                       // Botão Entrar
                       SizedBox(
                         height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              // String email = emailController.text;
-                              // String password = passwordController.text;
-                              // Get.off(PageRoutes.baseScreen);
-                            }
+                        child: GetX<AuthController>(
+                          builder: (authController) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                              ),
+                              onPressed: authController.isLoading.value
+                                  ? null
+                                  : () {
+                                      if (_formKey.currentState!.validate()) {
+                                        String email = emailController.text;
+                                        String password =
+                                            passwordController.text;
+
+                                        authController.signin(
+                                          email: email,
+                                          password: password,
+                                        );
+                                        // Get.off(PageRoutes.baseScreen);
+                                      }
+                                    },
+                              child: authController.isLoading.value
+                                  ? const SizedBox(
+                                      height: 18,
+                                      width: 18,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Text(
+                                      "Entrar",
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                            );
                           },
-                          child: const Text(
-                            "Entrar",
-                            style: TextStyle(fontSize: 18),
-                          ),
                         ),
                       ),
 
