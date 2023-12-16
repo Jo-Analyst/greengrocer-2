@@ -3,7 +3,6 @@ import 'package:greengrocer/src/models/user_model.dart';
 import 'package:greengrocer/src/page_routes/app_pages.dart';
 import 'package:greengrocer/src/pages/auth/repository/auth_repository.dart';
 import 'package:greengrocer/src/pages/auth/result/auth_result.dart';
-import 'package:greengrocer/src/pages/base/base_screen.dart';
 import 'package:greengrocer/src/services/utils_services.dart';
 
 class AuthController extends GetxController {
@@ -11,6 +10,10 @@ class AuthController extends GetxController {
 
   final authRepository = AuthRepository();
   UserModel user = UserModel();
+
+  Future<void> validateToken() async {
+    // authRepository.validateToken(token);
+  }
 
   Future<void> signin({
     required String email,
