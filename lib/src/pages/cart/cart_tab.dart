@@ -17,7 +17,7 @@ class _CartTabState extends State<CartTab> {
   void removeItemFromCart(CartItemModel cartItem) {
     setState(() {
       app_data.cartItems.remove(cartItem);
-      UtilsServices.showMessage(
+      UtilsServices.showToast(
           message: "${cartItem.item.itemName} removido(a) do carrinho");
     });
   }
@@ -134,7 +134,7 @@ class _CartTabState extends State<CartTab> {
                         if (result ?? false) {
                           showDialogPayment();
                         } else {
-                          UtilsServices.showMessage(
+                          UtilsServices.showToast(
                             message: "Pedido não concluido",
                             isError: true,
                           );

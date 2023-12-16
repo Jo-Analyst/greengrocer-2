@@ -19,7 +19,7 @@ abstract class AppPages {
       page: () => SignUpScreen(),
     ),
     GetPage(
-      name: PageRoutes.baseScreen,
+      name: PageRoutes.baseRoute,
       page: () => const BaseScreen(),
     ),
   ];
@@ -29,5 +29,5 @@ abstract class PageRoutes {
   static const String splashRoute = "/splash";
   static const String signinRoute = "/signin";
   static const String signupRoute = "/signup";
-  static const String baseScreen = "/";
+  static const String baseRoute = "/";
 }
