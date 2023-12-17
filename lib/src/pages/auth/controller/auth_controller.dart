@@ -12,6 +12,13 @@ class AuthController extends GetxController {
   final authRepository = AuthRepository();
   UserModel user = UserModel();
 
+  @override
+  void onInit() {
+    super.onInit();
+
+    validateToken();
+  }
+
   Future<void> validateToken() async {
     String? token = await UtilsServices.getLocalData(key: StorageKeys.token);
 
