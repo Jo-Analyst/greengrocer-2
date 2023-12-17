@@ -6,6 +6,7 @@ import 'package:greengrocer/src/pages/auth/controller/auth_controller.dart';
 import 'package:greengrocer/src/pages/common_widgets/app_name_widget.dart';
 import 'package:greengrocer/src/pages/common_widgets/custom_text_field.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
+import 'package:greengrocer/src/services/validators.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
@@ -80,35 +81,15 @@ class SignInScreen extends StatelessWidget {
                         controller: emailController,
                         icon: Icons.email,
                         label: "Email",
-                        validator: (email) {
-                          if (email == null || email.isEmpty) {
-                            return "Digite seu email";
-                          }
-
-                          if (!email.isEmail) return "Digite um email válido";
-
-                          return null;
-                        },
+                        validator: emailValidator,
                       ),
-
                       // Senha
                       CustomTextField(
-                        controller: passwordController,
-                        icon: Icons.lock,
-                        label: "Senha",
-                        isSecret: true,
-                        validator: (password) {
-                          if (password == null || password.isEmpty) {
-                            return "Digite sua senha";
-                          }
-
-                          if (password.length < 8) {
-                            return "Crie uma senha com pelo menos oito caracteres";
-                          }
-
-                          return null;
-                        },
-                      ),
+                          controller: passwordController,
+                          icon: Icons.lock,
+                          label: "Senha",
+                          isSecret: true,
+                          validator: passwordValidator),
 
                       // Botão Entrar
                       SizedBox(
