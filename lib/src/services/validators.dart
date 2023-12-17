@@ -38,8 +38,8 @@ String? phoneValidator(String? phone) {
     return "Digite o número de seu celular";
   }
 
-  if (phone.length < 16 || !phone.isPhoneNumber)
-    return "Digite um número válido";
+  if (phone.length < 16 || !phone.isPhoneNumber){
+    return "Digite um número válido";}
 
   return null;
 }
