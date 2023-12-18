@@ -40,7 +40,9 @@ class AuthController extends GetxController {
   }
 
   Future<void> signup() async {
+    isLoading.value = true;
     AuthResult result = await authRepository.signup(user);
+    isLoading.value = false;
 
     result.when(
       success: (user) {
