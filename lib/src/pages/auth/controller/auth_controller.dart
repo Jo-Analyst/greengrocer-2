@@ -39,6 +39,24 @@ class AuthController extends GetxController {
     );
   }
 
+  Future<void> signup() async {
+    AuthResult result = await authRepository.signup(user);
+
+    result.when(
+      success: (user) {
+        this.user = user;
+
+        saveTokenProcedToBase();
+      },
+      error: (message) {
+        UtilsServices.showToast(
+          message: message,
+          isError: true,
+        );
+      },
+    );
+  }
+
   void signinOut() async {
     // zera o user
     user = UserModel();
