@@ -15,57 +15,57 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$HomeResult {
+mixin _$HomeResult<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<dynamic> data) success,
+    required TResult Function(List<T> data) success,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<dynamic> data)? success,
+    TResult? Function(List<T> data)? success,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<dynamic> data)? success,
+    TResult Function(List<T> data)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Success value) success,
-    required TResult Function(Error value) error,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Error<T> value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Success value)? success,
-    TResult? Function(Error value)? error,
+    TResult? Function(Success<T> value)? success,
+    TResult? Function(Error<T> value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Success value)? success,
-    TResult Function(Error value)? error,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Error<T> value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HomeResultCopyWith<$Res> {
+abstract class $HomeResultCopyWith<T, $Res> {
   factory $HomeResultCopyWith(
-          HomeResult value, $Res Function(HomeResult) then) =
-      _$HomeResultCopyWithImpl<$Res, HomeResult>;
+          HomeResult<T> value, $Res Function(HomeResult<T>) then) =
+      _$HomeResultCopyWithImpl<T, $Res, HomeResult<T>>;
 }
 
 /// @nodoc
-class _$HomeResultCopyWithImpl<$Res, $Val extends HomeResult>
-    implements $HomeResultCopyWith<$Res> {
+class _$HomeResultCopyWithImpl<T, $Res, $Val extends HomeResult<T>>
+    implements $HomeResultCopyWith<T, $Res> {
   _$HomeResultCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -75,20 +75,20 @@ class _$HomeResultCopyWithImpl<$Res, $Val extends HomeResult>
 }
 
 /// @nodoc
-abstract class _$$SuccessImplCopyWith<$Res> {
+abstract class _$$SuccessImplCopyWith<T, $Res> {
   factory _$$SuccessImplCopyWith(
-          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
-      __$$SuccessImplCopyWithImpl<$Res>;
+          _$SuccessImpl<T> value, $Res Function(_$SuccessImpl<T>) then) =
+      __$$SuccessImplCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({List<dynamic> data});
+  $Res call({List<T> data});
 }
 
 /// @nodoc
-class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$HomeResultCopyWithImpl<$Res, _$SuccessImpl>
-    implements _$$SuccessImplCopyWith<$Res> {
+class __$$SuccessImplCopyWithImpl<T, $Res>
+    extends _$HomeResultCopyWithImpl<T, $Res, _$SuccessImpl<T>>
+    implements _$$SuccessImplCopyWith<T, $Res> {
   __$$SuccessImplCopyWithImpl(
-      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
+      _$SuccessImpl<T> _value, $Res Function(_$SuccessImpl<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,23 +96,23 @@ class __$$SuccessImplCopyWithImpl<$Res>
   $Res call({
     Object? data = null,
   }) {
-    return _then(_$SuccessImpl(
+    return _then(_$SuccessImpl<T>(
       null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<T>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
-  _$SuccessImpl(final List<dynamic> data) : _data = data;
+class _$SuccessImpl<T> with DiagnosticableTreeMixin implements Success<T> {
+  _$SuccessImpl(final List<T> data) : _data = data;
 
-  final List<dynamic> _data;
+  final List<T> _data;
   @override
-  List<dynamic> get data {
+  List<T> get data {
     if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_data);
@@ -120,14 +120,14 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeResult.success(data: $data)';
+    return 'HomeResult<$T>.success(data: $data)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'HomeResult.success'))
+      ..add(DiagnosticsProperty('type', 'HomeResult<$T>.success'))
       ..add(DiagnosticsProperty('data', data));
   }
 
@@ -135,7 +135,7 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SuccessImpl &&
+            other is _$SuccessImpl<T> &&
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
@@ -146,13 +146,13 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
+  _$$SuccessImplCopyWith<T, _$SuccessImpl<T>> get copyWith =>
+      __$$SuccessImplCopyWithImpl<T, _$SuccessImpl<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<dynamic> data) success,
+    required TResult Function(List<T> data) success,
     required TResult Function(String message) error,
   }) {
     return success(data);
@@ -161,7 +161,7 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<dynamic> data)? success,
+    TResult? Function(List<T> data)? success,
     TResult? Function(String message)? error,
   }) {
     return success?.call(data);
@@ -170,7 +170,7 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<dynamic> data)? success,
+    TResult Function(List<T> data)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -183,8 +183,8 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Success value) success,
-    required TResult Function(Error value) error,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Error<T> value) error,
   }) {
     return success(this);
   }
@@ -192,8 +192,8 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Success value)? success,
-    TResult? Function(Error value)? error,
+    TResult? Function(Success<T> value)? success,
+    TResult? Function(Error<T> value)? error,
   }) {
     return success?.call(this);
   }
@@ -201,8 +201,8 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Success value)? success,
-    TResult Function(Error value)? error,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Error<T> value)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -212,30 +212,30 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   }
 }
 
-abstract class Success implements HomeResult {
-  factory Success(final List<dynamic> data) = _$SuccessImpl;
+abstract class Success<T> implements HomeResult<T> {
+  factory Success(final List<T> data) = _$SuccessImpl<T>;
 
-  List<dynamic> get data;
+  List<T> get data;
   @JsonKey(ignore: true)
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+  _$$SuccessImplCopyWith<T, _$SuccessImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ErrorImplCopyWith<$Res> {
+abstract class _$$ErrorImplCopyWith<T, $Res> {
   factory _$$ErrorImplCopyWith(
-          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
-      __$$ErrorImplCopyWithImpl<$Res>;
+          _$ErrorImpl<T> value, $Res Function(_$ErrorImpl<T>) then) =
+      __$$ErrorImplCopyWithImpl<T, $Res>;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
-class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$HomeResultCopyWithImpl<$Res, _$ErrorImpl>
-    implements _$$ErrorImplCopyWith<$Res> {
+class __$$ErrorImplCopyWithImpl<T, $Res>
+    extends _$HomeResultCopyWithImpl<T, $Res, _$ErrorImpl<T>>
+    implements _$$ErrorImplCopyWith<T, $Res> {
   __$$ErrorImplCopyWithImpl(
-      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      _$ErrorImpl<T> _value, $Res Function(_$ErrorImpl<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -243,7 +243,7 @@ class __$$ErrorImplCopyWithImpl<$Res>
   $Res call({
     Object? message = null,
   }) {
-    return _then(_$ErrorImpl(
+    return _then(_$ErrorImpl<T>(
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -254,7 +254,7 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
+class _$ErrorImpl<T> with DiagnosticableTreeMixin implements Error<T> {
   _$ErrorImpl(this.message);
 
   @override
@@ -262,14 +262,14 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeResult.error(message: $message)';
+    return 'HomeResult<$T>.error(message: $message)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'HomeResult.error'))
+      ..add(DiagnosticsProperty('type', 'HomeResult<$T>.error'))
       ..add(DiagnosticsProperty('message', message));
   }
 
@@ -277,7 +277,7 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ErrorImpl &&
+            other is _$ErrorImpl<T> &&
             (identical(other.message, message) || other.message == message));
   }
 
@@ -287,13 +287,13 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
+  _$$ErrorImplCopyWith<T, _$ErrorImpl<T>> get copyWith =>
+      __$$ErrorImplCopyWithImpl<T, _$ErrorImpl<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<dynamic> data) success,
+    required TResult Function(List<T> data) success,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -302,7 +302,7 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<dynamic> data)? success,
+    TResult? Function(List<T> data)? success,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -311,7 +311,7 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<dynamic> data)? success,
+    TResult Function(List<T> data)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -324,8 +324,8 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Success value) success,
-    required TResult Function(Error value) error,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Error<T> value) error,
   }) {
     return error(this);
   }
@@ -333,8 +333,8 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Success value)? success,
-    TResult? Function(Error value)? error,
+    TResult? Function(Success<T> value)? success,
+    TResult? Function(Error<T> value)? error,
   }) {
     return error?.call(this);
   }
@@ -342,8 +342,8 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Success value)? success,
-    TResult Function(Error value)? error,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Error<T> value)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -353,11 +353,11 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   }
 }
 
-abstract class Error implements HomeResult {
-  factory Error(final String message) = _$ErrorImpl;
+abstract class Error<T> implements HomeResult<T> {
+  factory Error(final String message) = _$ErrorImpl<T>;
 
   String get message;
   @JsonKey(ignore: true)
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+  _$$ErrorImplCopyWith<T, _$ErrorImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
