@@ -19,6 +19,7 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
   late Function(GlobalKey) runAddToCartAnimation;
+  final TextEditingController searchController = TextEditingController();
   final controller = Get.find<HomeController>();
 
   void listClick(GlobalKey widgetKey) async {
@@ -82,28 +83,48 @@ class _HomeTabState extends State<HomeTab> {
                 vertical: 10,
                 horizontal: 20,
               ),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  isDense: true,
-                  hintText: "Pesquise aqui...",
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 14,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: CustomColors.customContrastColor,
-                    size: 21,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(60),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                onChanged: (value) {
-                  controller.searchTitle.value = value;
+              child: GetBuilder<HomeController>(
+                builder: (controller) {
+                  return TextFormField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      isDense: true,
+                      hintText: "Pesquise aqui...",
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade400,
+                        fontSize: 14,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: CustomColors.customContrastColor,
+                        size: 21,
+                      ),
+                      suffixIcon: controller.searchTitle.isEmpty
+                          ? null
+                          : IconButton(
+                              onPressed: () {
+                                searchController.clear();
+                                controller.searchTitle.value = "";
+                                FocusScope.of(context).unfocus();
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                size: 21,
+                                color: CustomColors.customSwatchColor,
+                              ),
+                            ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(60),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      controller.searchTitle.value = value;
+                    },
+                  );
                 },
               ),
             ),
