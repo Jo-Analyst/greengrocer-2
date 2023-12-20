@@ -116,7 +116,7 @@ class _HomeTabState extends State<HomeTab> {
                 return Container(
                   padding: const EdgeInsets.only(left: 25),
                   height: 40,
-                  child: !controller.isLoading
+                  child: !controller.isCategoryLoading
                       ? ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (_, index) {
@@ -159,7 +159,7 @@ class _HomeTabState extends State<HomeTab> {
             GetBuilder<HomeController>(
               builder: (controller) {
                 return Expanded(
-                  child: !controller.isLoading
+                  child: !controller.isProductLoading
                       ? GridView.builder(
                           physics: const BouncingScrollPhysics(),
                           padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -170,10 +170,10 @@ class _HomeTabState extends State<HomeTab> {
                             mainAxisSpacing: 2,
                             childAspectRatio: 9 / 11.5,
                           ),
-                          itemCount: app_data.items.length,
+                          itemCount: controller.allProducts.length,
                           itemBuilder: (_, index) {
                             return ItemTile(
-                              item: app_data.items[index],
+                              item: controller.allProducts[index],
                               onClick: runAddToCartAnimation,
                             );
                           },
@@ -186,7 +186,7 @@ class _HomeTabState extends State<HomeTab> {
                           mainAxisSpacing: 8,
                           childAspectRatio: 9 / 11.5,
                           children: List.generate(
-                            app_data.items.length,
+                            10,
                             (index) => CustomShimmer(
                               height: double.infinity,
                               width: double.infinity,

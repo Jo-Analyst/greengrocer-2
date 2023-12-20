@@ -10,19 +10,28 @@ const int itemsPerPage = 6;
 class HomeController extends GetxController {
   final homeRepository = HomeRepository();
 
-  bool isLoading = false;
+  bool isCategoryLoading = false;
+  bool isProductLoading = true;
   List<CategoryModel> allCategories = [];
   CategoryModel? currentCatergory;
+
+  List<ItemModel> get allProducts => currentCatergory?.items ?? [];
 
   void selectCategory(CategoryModel category) {
     currentCatergory = category;
     update();
 
+    if (currentCatergory!.items.isNotEmpty) return;
+
     getAllProducts();
   }
 
-  void setLoading(bool value) {
-    isLoading = value;
+  void setLoading(bool value, {bool isProduct = false}) {
+    if (!isProduct) {
+      isCategoryLoading = value;
+    } else {
+      isProductLoading = value;
+    }
     update();
   }
 
@@ -58,23 +67,19 @@ class HomeController extends GetxController {
   }
 
   Future<void> getAllProducts() async {
+    setLoading(true, isProduct: true);
     final Map<String, dynamic> body = {
       "page": currentCatergory!.pagination,
       "categoryId": currentCatergory!.id,
       "itemsPerPage": itemsPerPage
     };
-    setLoading(true);
     HomeResult<ItemModel> result = await homeRepository.getAllProducts(body);
 
-    setLoading(false);
+    setLoading(false, isProduct: true);
 
     result.when(
       success: (data) {
-        int i = 0;
-        for (var element in data) {
-          print('$i - $element');
-          i++;
-        }
+        currentCatergory!.items = data;
       },
       error: (message) {
         UtilsServices.showToast(
@@ -83,5 +88,7 @@ class HomeController extends GetxController {
         );
       },
     );
+
+    update();
   }
 }
