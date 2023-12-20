@@ -19,14 +19,10 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
   late Function(GlobalKey) runAddToCartAnimation;
+  final controller = Get.find<HomeController>();
 
   void listClick(GlobalKey widgetKey) async {
     await runAddToCartAnimation(widgetKey);
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -106,6 +102,9 @@ class _HomeTabState extends State<HomeTab> {
                     borderSide: BorderSide.none,
                   ),
                 ),
+                onChanged: (value) {
+                  controller.searchTitle.value = value;
+                },
               ),
             ),
 
