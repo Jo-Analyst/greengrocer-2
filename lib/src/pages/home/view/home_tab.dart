@@ -76,7 +76,6 @@ class _HomeTabState extends State<HomeTab> {
         // ),
         // jumpAnimation: const JumpAnimationOptions(),
         createAddToCartAnimation: (runAddToCartAnimation) {
-          // You can run the animation by addToCartAnimationMethod, just pass trough the the global key of  the image as parameter
           this.runAddToCartAnimation = runAddToCartAnimation;
         },
         child: Column(
@@ -128,7 +127,7 @@ class _HomeTabState extends State<HomeTab> {
                               },
                               category: category.title,
                               isSelected:
-                                  category == controller.currentCatergory,
+                                  category == controller.currentCategory,
                             );
                           },
                           separatorBuilder: (_, __) => const SizedBox(
@@ -172,6 +171,11 @@ class _HomeTabState extends State<HomeTab> {
                           ),
                           itemCount: controller.allProducts.length,
                           itemBuilder: (_, index) {
+                            if (((index + 1) ==
+                                    controller.allProducts.length) &&
+                                !controller.isLastPage) {
+                              controller.loadMoreProducts();
+                            }
                             return ItemTile(
                               item: controller.allProducts[index],
                               onClick: runAddToCartAnimation,

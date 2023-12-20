@@ -13,15 +13,21 @@ class HomeController extends GetxController {
   bool isCategoryLoading = false;
   bool isProductLoading = true;
   List<CategoryModel> allCategories = [];
-  CategoryModel? currentCatergory;
+  CategoryModel? currentCategory;
 
-  List<ItemModel> get allProducts => currentCatergory?.items ?? [];
+  List<ItemModel> get allProducts => currentCategory?.items ?? [];
+
+  bool get isLastPage {
+    if (currentCategory!.items.length < itemsPerPage) return true;
+
+    return currentCategory!.pagination * itemsPerPage > allProducts.length;
+  }
 
   void selectCategory(CategoryModel category) {
-    currentCatergory = category;
+    currentCategory = category;
     update();
 
-    if (currentCatergory!.items.isNotEmpty) return;
+    if (currentCategory!.items.isNotEmpty) return;
 
     getAllProducts();
   }
@@ -66,11 +72,14 @@ class HomeController extends GetxController {
     );
   }
 
-  Future<void> getAllProducts() async {
-    setLoading(true, isProduct: true);
+  Future<void> getAllProducts({bool canLoad = true}) async {
+    if (canLoad) {
+      setLoading(true, isProduct: true);
+    }
+
     final Map<String, dynamic> body = {
-      "page": currentCatergory!.pagination,
-      "categoryId": currentCatergory!.id,
+      "page": currentCategory!.pagination,
+      "categoryId": currentCategory!.id,
       "itemsPerPage": itemsPerPage
     };
     HomeResult<ItemModel> result = await homeRepository.getAllProducts(body);
@@ -79,7 +88,7 @@ class HomeController extends GetxController {
 
     result.when(
       success: (data) {
-        currentCatergory!.items = data;
+        currentCategory!.items.addAll(data);
       },
       error: (message) {
         UtilsServices.showToast(
@@ -90,5 +99,11 @@ class HomeController extends GetxController {
     );
 
     update();
+  }
+
+  void loadMoreProducts() {
+    currentCategory!.pagination++;
+
+    getAllProducts(canLoad: false);
   }
 }
