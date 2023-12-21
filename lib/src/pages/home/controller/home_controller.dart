@@ -17,7 +17,7 @@ class HomeController extends GetxController {
 
   List<ItemModel> get allProducts => currentCategory?.items ?? [];
 
-  RxString searchTitle = "".obs;
+  RxString searchTitle = ''.obs;
 
   bool get isLastPage {
     if (currentCategory!.items.length < itemsPerPage) return true;
@@ -47,9 +47,8 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     getAllCategories();
-    debounce(searchTitle, (_) {
-      update();
-    }, time: const Duration(milliseconds: 600));
+    debounce(searchTitle, (_) => filterByTitle(),
+        time: const Duration(milliseconds: 600));
   }
 
   Future<void> getAllCategories() async {
@@ -83,10 +82,18 @@ class HomeController extends GetxController {
     }
 
     final Map<String, dynamic> body = {
-      "page": currentCategory!.pagination,
-      "categoryId": currentCategory!.id,
-      "itemsPerPage": itemsPerPage
+      'page': currentCategory!.pagination,
+      'categoryId': currentCategory!.id,
+      'itemsPerPage': itemsPerPage
     };
+
+    if (searchTitle.value.isNotEmpty) {
+      body['title'] = searchTitle.value;
+      if (currentCategory!.id.isEmpty) {
+        body.remove('categoryId');
+      }
+    }
+
     HomeResult<ItemModel> result = await homeRepository.getAllProducts(body);
 
     setLoading(false, isProduct: true);
@@ -116,7 +123,7 @@ class HomeController extends GetxController {
     if (searchTitle.value.isEmpty) {
       allCategories.removeAt(0);
     } else {
-      CategoryModel? c = allCategories.firstWhereOrNull((cat) => cat.id == "");
+      CategoryModel? c = allCategories.firstWhereOrNull((cat) => cat.id == '');
 
       if (c == null) {
         // Criar uma nova categoria com todos

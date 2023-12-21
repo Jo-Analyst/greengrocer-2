@@ -179,28 +179,43 @@ class _HomeTabState extends State<HomeTab> {
               builder: (controller) {
                 return Expanded(
                   child: !controller.isProductLoading
-                      ? GridView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 2,
-                            childAspectRatio: 9 / 11.5,
+                      ? Visibility(
+                          visible: (controller.currentCategory?.items ?? [])
+                              .isNotEmpty,
+                          replacement: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.search_off,
+                                size: 40,
+                                color: CustomColors.customSwatchColor,
+                              ),
+                              const Text("Não há items para apresentar")
+                            ],
                           ),
-                          itemCount: controller.allProducts.length,
-                          itemBuilder: (_, index) {
-                            if (((index + 1) ==
-                                    controller.allProducts.length) &&
-                                !controller.isLastPage) {
-                              controller.loadMoreProducts();
-                            }
-                            return ItemTile(
-                              item: controller.allProducts[index],
-                              onClick: runAddToCartAnimation,
-                            );
-                          },
+                          child: GridView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 2,
+                              childAspectRatio: 9 / 11.5,
+                            ),
+                            itemCount: controller.allProducts.length,
+                            itemBuilder: (_, index) {
+                              if (((index + 1) ==
+                                      controller.allProducts.length) &&
+                                  !controller.isLastPage) {
+                                controller.loadMoreProducts();
+                              }
+                              return ItemTile(
+                                item: controller.allProducts[index],
+                                onClick: runAddToCartAnimation,
+                              );
+                            },
+                          ),
                         )
                       : GridView.count(
                           physics: const BouncingScrollPhysics(),
