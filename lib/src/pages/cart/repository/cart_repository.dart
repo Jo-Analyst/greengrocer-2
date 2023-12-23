@@ -8,6 +8,7 @@ class CartRepository {
     required String token,
     required userId,
   }) async {
+    print(token);
     final result = await _httpManager.restRequest(
       url: Endpoints.getCartItem,
       method: HttpMethods.post,
@@ -16,7 +17,9 @@ class CartRepository {
     );
 
     if (result['result'] != null) {
+      print("tem carrinho");
       print(result['result']);
+
     } else {
       print("Ocorreu um erro");
     }
