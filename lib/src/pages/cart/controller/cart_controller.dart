@@ -25,6 +25,19 @@ class CartController extends GetxController {
     return total;
   }
 
+  Future<bool> changeItemQuantity({
+    required CartItemModel item,
+    required int quantity,
+  }) async {
+    final result = await cartRepository.changeItemQuantity(
+      cartItemId: item.id,
+      quantity: quantity,
+      token: authController.user.token!,
+    );
+
+    return result;
+  }
+
   Future<void> getCartItem() async {
     final result = await cartRepository.getCartItems(
       token: authController.user.token!,
@@ -35,7 +48,6 @@ class CartController extends GetxController {
       success: (data) {
         cartItems = data;
         update();
-        print(data);
       },
       error: (message) {
         UtilsServices.showToast(
@@ -47,7 +59,7 @@ class CartController extends GetxController {
   }
 
   int getItemIndex(ItemModel item) {
-    return cartItems.indexWhere((itemInList) => itemInList.id == item.id);
+    return cartItems.indexWhere((itemInList) => itemInList.item.id == item.id);
   }
 
   Future<void> addItemToCart(
@@ -55,7 +67,20 @@ class CartController extends GetxController {
     int itemIndex = getItemIndex(item);
 
     if (itemIndex >= 0) {
-      cartItems[itemIndex].quantity += quantity;
+      final product = cartItems[itemIndex];
+
+      final result = await changeItemQuantity(
+          item: product, quantity: (product.quantity + quantity));
+
+      if (result) {
+        cartItems[itemIndex].quantity += quantity;
+      } else {
+        UtilsServices.showToast(
+          message:
+              'Ocorreu unm erro ao alterar a quantidade do produto no carrinho',
+          isError: true,
+        );
+      }
     } else {
       final result = await cartRepository.addItemToCart(
         authController.user.id!,
@@ -75,7 +100,10 @@ class CartController extends GetxController {
           );
         },
         error: (message) {
-          UtilsServices.showToast(message: message, isError: true);
+          UtilsServices.showToast(
+            message: message,
+            isError: true,
+          );
         },
       );
     }
