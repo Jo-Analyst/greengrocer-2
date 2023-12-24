@@ -1,18 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/models/item_model.dart';
 import 'package:greengrocer/src/page_routes/app_pages.dart';
+import 'package:greengrocer/src/pages/cart/controller/cart_controller.dart';
 import 'package:greengrocer/src/services/utils_services.dart';
 
 class ItemTile extends StatefulWidget {
   final ItemModel item;
-  final void Function(GlobalKey) onClick;
+  final void Function(GlobalKey) cartAnimationMethod;
 
   const ItemTile({
     Key? key,
     required this.item,
-    required this.onClick,
+    required this.cartAnimationMethod,
   }) : super(key: key);
 
   @override
@@ -21,6 +24,7 @@ class ItemTile extends StatefulWidget {
 
 class _ItemTileState extends State<ItemTile> {
   final GlobalKey widgetKey = GlobalKey();
+  final cartController = Get.find<CartController>();
 
   IconData tileIcon = Icons.add_shopping_cart_outlined;
 
@@ -110,8 +114,10 @@ class _ItemTileState extends State<ItemTile> {
             child: Material(
               child: InkWell(
                 onTap: () {
-                  widget.onClick(widgetKey);
                   switchIcon();
+
+                  cartController.addItemToCart(item: widget.item);
+                  widget.cartAnimationMethod(widgetKey);
                 },
                 child: Ink(
                   decoration: BoxDecoration(
