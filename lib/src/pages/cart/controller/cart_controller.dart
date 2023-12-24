@@ -34,6 +34,22 @@ class CartController extends GetxController {
       quantity: quantity,
       token: authController.user.token!,
     );
+    if (result == true) {
+      if (quantity == 0) {
+        cartItems.removeWhere((cartItem) => cartItem.id == item.id);
+      } else {
+        cartItems.firstWhere((cartItem) => cartItem.id == item.id).quantity =
+            quantity;
+      }
+      
+      update();
+    } else {
+      UtilsServices.showToast(
+        message:
+            'Ocorreu unm erro ao alterar a quantidade do produto no carrinho',
+        isError: true,
+      );
+    }
 
     return result;
   }
@@ -69,18 +85,8 @@ class CartController extends GetxController {
     if (itemIndex >= 0) {
       final product = cartItems[itemIndex];
 
-      final result = await changeItemQuantity(
+      await changeItemQuantity(
           item: product, quantity: (product.quantity + quantity));
-
-      if (result) {
-        cartItems[itemIndex].quantity += quantity;
-      } else {
-        UtilsServices.showToast(
-          message:
-              'Ocorreu unm erro ao alterar a quantidade do produto no carrinho',
-          isError: true,
-        );
-      }
     } else {
       final result = await cartRepository.addItemToCart(
         authController.user.id!,
