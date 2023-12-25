@@ -16,6 +16,8 @@ class CartTab extends StatefulWidget {
 }
 
 class _CartTabState extends State<CartTab> {
+  final cartController = Get.find<CartController>();
+
   void removeItemFromCart(CartItemModel cartItem) {
     setState(() {
       app_data.cartItems.remove(cartItem);
@@ -31,15 +33,6 @@ class _CartTabState extends State<CartTab> {
     }
 
     return total;
-  }
-
-  void showDialogPayment() {
-    showDialog(
-      context: context,
-      builder: (_) => PaymentDialog(
-        order: app_data.orders.first,
-      ),
-    );
   }
 
   Future<bool?> showOrderConfirmation() {
@@ -156,12 +149,7 @@ class _CartTabState extends State<CartTab> {
                         final result = await showOrderConfirmation();
 
                         if (result ?? false) {
-                          showDialogPayment();
-                        } else {
-                          UtilsServices.showToast(
-                            message: "Pedido não concluido",
-                            isError: true,
-                          );
+                          cartController.checkoutCart();
                         }
                       },
                       child: const Text(
