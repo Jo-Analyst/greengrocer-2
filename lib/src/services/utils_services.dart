@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -23,6 +26,12 @@ class UtilsServices {
   static String priceToCurrency(double price) {
     NumberFormat numberFormat = NumberFormat.simpleCurrency(locale: "PT-BR");
     return numberFormat.format(price);
+  }
+
+  static Uint8List decodeQrCodeImage(String value) {
+    String base645String = value.split(",").last;
+
+    return base64.decode(base645String);
   }
 
   static String formateDateTime(DateTime dateTime) {

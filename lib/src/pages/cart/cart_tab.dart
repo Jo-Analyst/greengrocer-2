@@ -4,7 +4,6 @@ import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/models/cart_item_model.dart';
 import 'package:greengrocer/src/pages/cart/components/cart_tile.dart';
 import 'package:greengrocer/src/pages/cart/controller/cart_controller.dart';
-import 'package:greengrocer/src/pages/common_widgets/payment_dialog.dart';
 import 'package:greengrocer/src/services/utils_services.dart';
 import 'package:greengrocer/src/config/app_data.dart' as app_data;
 
@@ -138,24 +137,39 @@ class _CartTabState extends State<CartTab> {
                 ),
                 SizedBox(
                     height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        backgroundColor: CustomColors.customSwatchColor,
-                      ),
-                      onPressed: () async {
-                        final result = await showOrderConfirmation();
+                    child: GetBuilder<CartController>(
+                      builder: (controller) {
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            backgroundColor: CustomColors.customSwatchColor,
+                          ),
+                          onPressed: controller.isCheckoutLoading
+                              ? null
+                              : () async {
+                                  final result = await showOrderConfirmation();
 
-                        if (result ?? false) {
-                          cartController.checkoutCart();
-                        }
+                                  if (result ?? false) {
+                                    cartController.checkoutCart();
+                                  } else {
+                                    UtilsServices.showToast(
+                                      message: "Pedido não confirmado",
+                                    );
+                                  }
+                                },
+                          child: controller.isCheckoutLoading
+                              ? const SizedBox(
+                                  height: 14,
+                                  width: 14,
+                                  child: CircularProgressIndicator())
+                              : const Text(
+                                  "Concluir pedido",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                        );
                       },
-                      child: const Text(
-                        "Concluir pedido",
-                        style: TextStyle(fontSize: 18),
-                      ),
                     )),
               ],
             ),

@@ -11,6 +11,8 @@ class CartController extends GetxController {
   final cartRepository = CartRepository();
   final authController = Get.find<AuthController>();
 
+  bool isCheckoutLoading = false;
+
   List<CartItemModel> cartItems = [];
 
   @override
@@ -27,14 +29,24 @@ class CartController extends GetxController {
     return total;
   }
 
+  void setCheckoutLoading(bool value) {
+    isCheckoutLoading = value;
+    update();
+  }
+
   Future checkoutCart() async {
+    setCheckoutLoading(true);
     final result = await cartRepository.checkoutCart(
       token: authController.user.token!,
       total: cartTotalPrice(),
     );
 
+    setCheckoutLoading(false);
+
     result.when(
       success: (order) {
+        cartItems.clear();
+        update();
         showDialog(
           context: Get.context!,
           builder: (_) => PaymentDialog(
@@ -44,7 +56,7 @@ class CartController extends GetxController {
       },
       error: (message) {
         UtilsServices.showToast(
-          message: "Pedido não concluido",
+          message: message,
         );
       },
     );

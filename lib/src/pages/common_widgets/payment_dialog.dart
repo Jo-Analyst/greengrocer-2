@@ -1,7 +1,7 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:greengrocer/src/models/order_model.dart';
 import 'package:greengrocer/src/services/utils_services.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class PaymentDialog extends StatelessWidget {
   final OrderModel order;
@@ -36,10 +36,10 @@ class PaymentDialog extends StatelessWidget {
                 ),
 
                 // QR Code
-                QrImageView(
-                  data: "Joelmir Rogério Carvalho",
-                  version: QrVersions.auto,
-                  size: 200,
+                Image.memory(
+                  UtilsServices.decodeQrCodeImage(order.qrCodeImage),
+                  width: 200,
+                  height: 200,
                 ),
 
                 // Vencimento
@@ -65,7 +65,9 @@ class PaymentDialog extends StatelessWidget {
                     ),
                     side: const BorderSide(color: Colors.green, width: 2),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    FlutterClipboard.copy(order.copyAndPaste);
+                  },
                   icon: const Icon(
                     Icons.copy,
                     size: 15,
