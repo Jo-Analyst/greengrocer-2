@@ -37,7 +37,7 @@ class UtilsServices {
   static String formateDateTime(DateTime dateTime) {
     initializeDateFormatting();
     DateFormat dateFormat = DateFormat.yMd("PT-BR").add_Hm();
-    return dateFormat.format(dateTime);
+    return dateFormat.format(dateTime.toLocal());
   }
 
   static void showToast({required String message, bool isError = false}) {
