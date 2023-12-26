@@ -21,7 +21,7 @@ class OrdersRepository {
       },
     );
 
-    if (result['result']) {
+    if (result['result'] != null) {
       List<OrderModel> orders =
           List<Map<String, dynamic>>.from(result['result'])
               .map(OrderModel.fromJson)
