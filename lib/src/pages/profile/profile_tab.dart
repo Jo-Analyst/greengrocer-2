@@ -17,6 +17,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
   Future<bool?> updateProfile() {
     final passwordController = TextEditingController();
+    final currentPasswordController = TextEditingController();
     final globalkey = GlobalKey<FormState>();
 
     return showDialog(
@@ -47,7 +48,8 @@ class _ProfileTabState extends State<ProfileTab> {
                         ),
                       ),
                       // Senha
-                      const CustomTextField(
+                      CustomTextField(
+                        controller: currentPasswordController,
                         isSecret: true,
                         icon: Icons.lock,
                         label: "Senha atual",
@@ -81,17 +83,31 @@ class _ProfileTabState extends State<ProfileTab> {
                       // Botão de confirmação
                       SizedBox(
                         height: 45,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onPressed: () {
-                            if (globalkey.currentState!.validate()) {}
-                          },
-                          child: const Text("Atualizar"),
-                        ),
+                        child: Obx(() => ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onPressed: authController.isLoading.value
+                                  ? null
+                                  : () {
+                                      if (globalkey.currentState!.validate()) {
+                                        authController.changePassword(
+                                          currentPassword:
+                                              currentPasswordController.text,
+                                          newPassword: passwordController.text,
+                                        );
+                                      }
+                                    },
+                              child: authController.isLoading.value
+                                  ? const SizedBox(
+                                      height: 18,
+                                      width: 18,
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : const Text("Atualizar"),
+                            )),
                       ),
                     ],
                   ),

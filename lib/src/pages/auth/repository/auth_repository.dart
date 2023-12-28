@@ -12,11 +12,33 @@ class AuthRepository {
       url: Endpoints.validateToken,
       method: HttpMethods.post,
       header: {
-        "X-Parse-Session-Token": token,
+        'X-Parse-Session-Token': token,
       },
     );
 
     return handleUserOrError(result);
+  }
+
+  Future<bool> changePassword({
+    required String token,
+    required String email,
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    final result = await _httpManager.restRequest(
+      url: Endpoints.changePassword,
+      method: HttpMethods.post,
+      body: {
+        'email': email,
+        'currentPassword': currentPassword,
+        'newPassword': newPassword,
+      },
+      header: {
+        'X-Parse-Session-Token': token,
+      },
+    );
+
+    return result["error"] == null;
   }
 
   Future<AuthResult> signIn(
@@ -25,8 +47,8 @@ class AuthRepository {
       url: Endpoints.signin,
       method: HttpMethods.post,
       body: {
-        "email": email,
-        "password": password,
+        'email': email,
+        'password': password,
       },
     );
 
@@ -44,11 +66,11 @@ class AuthRepository {
   }
 
   AuthResult handleUserOrError(Map<dynamic, dynamic> result) {
-    if (result["result"] != null) {
-      final user = UserModel.fromJson(result["result"]);
+    if (result['result'] != null) {
+      final user = UserModel.fromJson(result['result']);
       return AuthResult.success(user);
     } else {
-      return AuthResult.error(auth_errors.authErrorsString(result["error"]));
+      return AuthResult.error(auth_errors.authErrorsString(result['error']));
     }
   }
 
@@ -56,7 +78,7 @@ class AuthRepository {
     await _httpManager.restRequest(
       url: Endpoints.resetPassword,
       method: HttpMethods.post,
-      body: {"email": email},
+      body: {'email': email},
     );
   }
 }
