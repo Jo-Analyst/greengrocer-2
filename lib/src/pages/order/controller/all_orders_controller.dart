@@ -23,11 +23,17 @@ class AllOrdersController extends GetxController {
 
     result.when(
       success: (orders) {
-        allOrders = orders;
+        allOrders = orders
+          ..sort(
+            (a, b) => b.createdDateTime!.compareTo(a.createdDateTime!),
+          );
         update();
       },
       error: (message) {
-        UtilsServices.showToast(message: message, isError: true);
+        UtilsServices.showToast(
+          message: message,
+          isError: true,
+        );
       },
     );
   }
