@@ -8,7 +8,6 @@ import 'package:greengrocer/src/pages/common_widgets/app_name_widget.dart';
 import 'package:greengrocer/src/pages/common_widgets/custom_shimmer.dart';
 import 'package:greengrocer/src/pages/home/controller/home_controller.dart';
 import 'package:greengrocer/src/pages/home/view/components/category_tile.dart';
-import 'package:greengrocer/src/config/app_data.dart' as app_data;
 import 'package:greengrocer/src/pages/home/view/components/item_tile.dart';
 
 class HomeTab extends StatefulWidget {
@@ -169,7 +168,7 @@ class _HomeTabState extends State<HomeTab> {
                       : ListView(
                           scrollDirection: Axis.horizontal,
                           children: List.generate(
-                            app_data.categories.length,
+                            10,
                             (index) => Container(
                               alignment: Alignment.center,
                               margin: const EdgeInsets.only(right: 12),
